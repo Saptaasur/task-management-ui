@@ -46,11 +46,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.title && formData.description && formData.deadline) {
+    if (!formData.title || !formData.description || !formData.deadline) {
+      setErrorMessage('Please fill out all fields.');
+    } else if (new Date(formData.deadline) < new Date()) {
+      setErrorMessage('Deadline must be a future date.');
+    } else {
       setErrorMessage(null);
       onSave(formData);
-    } else {
-      setErrorMessage('Please fill out all fields.');
     }
   };
 
