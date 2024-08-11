@@ -67,13 +67,13 @@ function App() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <aside className="w-1/5 bg-white p-4 shadow-md">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 overflow-x-hidden">
+      <aside className="w-full md:w-1/4 bg-white p-4 shadow-md">
         <Sidebar expiredTasks={5} activeTasks={7} completedTasks={4} />
       </aside>
-      <main className="flex-1 p-6">
-        <header className="flex justify-between items-center mb-4">
-          <div className="w-2/3">
+      <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
+        <header className="flex flex-col md:flex-row justify-between items-center mb-4">
+          <div className="w-full md:w-2/3 mb-4 md:mb-0">
             <input
               type="text"
               placeholder="Search Task"
@@ -92,6 +92,7 @@ function App() {
                 deadline: '',
                 priority: 'Low',
                 status: 'To Do',
+                timeoutDuration: 0
               })
             }
           >
@@ -99,7 +100,7 @@ function App() {
           </button>
         </header>
         <CategorySlider currentCategory={currentCategory} onCategoryChange={setCurrentCategory} />
-        <div className="flex space-x-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {filteredTasks.map((task) => (
             <TaskCard
               key={task._id}
@@ -122,4 +123,3 @@ function App() {
 }
 
 export default App;
-

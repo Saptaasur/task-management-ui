@@ -6,9 +6,9 @@ interface Task {
   description: string;
   deadline: string;
   priority: 'Low' | 'High';
-  status: 'To Do' | 'On Progress' | 'Done'|'Timeout' ; // Added Timeout option
+  status: 'To Do' | 'On Progress' | 'Done' | 'Timeout';
+  timeoutDuration: number; // Add this line
 }
-
 interface TaskFormProps {
   task: Task | null;
   onSave: (task: Task) => void;
@@ -16,6 +16,7 @@ interface TaskFormProps {
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState<Task>({
     _id: '',
     title: '',
@@ -23,9 +24,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
     deadline: '',
     priority: 'Low',
     status: 'To Do',
+    timeoutDuration: 0, // Add this line
   });
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
+  
   useEffect(() => {
     if (task) {
       setFormData({
@@ -35,30 +36,31 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
         deadline: task.deadline,
         priority: task.priority,
         status: task.status,
+        timeoutDuration:task.timeoutDuration
       });
     }
   }, [task]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: name === 'timeoutDuration' ? Number(value) : value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title || !formData.description || !formData.deadline) {
-      setErrorMessage('Please fill out all fields.');
-    } else if (new Date(formData.deadline) < new Date()) {
-      setErrorMessage('Deadline must be a future date.');
-    } else {
+    console.log('Form Data:', formData); // Log the form data before submission
+    if (formData.title && formData.description && formData.deadline) {
       setErrorMessage(null);
       onSave(formData);
+    } else {
+      setErrorMessage('Please fill out all fields.');
     }
   };
+  
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded shadow-lg w-80">
+    <div className="task-form-container bg-white p-6 rounded shadow-lg">
         <h2 className="text-lg font-bold mb-4">{task ? 'Edit Task' : 'Add Task'}</h2>
         <form onSubmit={handleSubmit}>
           {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
@@ -107,6 +109,17 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
               <option value="High">High</option>
             </select>
           </div>
+          <div className="mb-4">
+  <label className="block text-gray-700">Timeout Duration (in minutes)</label>
+  <input
+    type="number"
+    name="timeoutDuration"
+    value={formData.timeoutDuration}
+    onChange={handleChange}
+    className="w-full p-2 border rounded"
+    required
+  />
+</div>
           <div className="mb-4">
             <label className="block text-gray-700">Status</label>
             <select

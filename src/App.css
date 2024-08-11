@@ -1,38 +1,175 @@
-.App {
-  text-align: center;
+/* Base Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.header, .footer {
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+  text-align: center;
+  padding: 1rem 0;
 }
 
-.App-link {
+.header a, .footer a {
   color: #61dafb;
+  text-decoration: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.header h1, .footer h1 {
+  margin: 0;
+}
+
+.main {
+  padding: 1rem;
+}
+
+/* Flexbox Layouts */
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+/* Responsive Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Forms */
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4fa3d1;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 0.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .header, .footer {
+    padding: 0.5rem 0;
+  }
+
+  .main {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header h1, .footer h1 {
+    font-size: 1.25rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .card {
+    padding: 0.75rem;
+  }
+
+  button {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header, .footer {
+    padding: 0.25rem 0;
+  }
+
+  .main {
+    padding: 0.25rem;
+  }
+
+  .card {
+    padding: 0.5rem;
+  }
+
+  button {
+    padding: 0.25rem;
+  }
+}
+/* Add this to your CSS file */
+@media (max-width: 640px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .sidebar {
+    width: 25%;
+  }
+
+  .main-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .task-card {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
   }
 }
